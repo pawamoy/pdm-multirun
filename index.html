@@ -716,10 +716,9 @@ of Python versions:</p>
 </code></pre></div>
 <p>By default, PDM Multirun reads Python versions from the
 <code>PDM_MULTIRUN_VERSIONS</code> environment variable.
-It is a string {major}.{minor} versions that can be found
-and called by PDM.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># comma-separated is accepted as well</span>
-<span class="nb">export</span> <span class="nv">PDM_MULTIRUN_VERSIONS</span><span class="o">=</span><span class="s2">&quot;3.7 3.8 3.9 3.10 3.11&quot;</span>
+It is a string of <code>{major}.{minor}</code> versions,
+separated by spaces, that can be found and called by PDM.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">PDM_MULTIRUN_VERSIONS</span><span class="o">=</span><span class="s2">&quot;3.7 3.8 3.9 3.10 3.11&quot;</span>
 pdm multirun pytest tests/
 </code></pre></div>
 <p>PDM Multirun sets the <code>PDM_MULTIRUN=1</code> environment variable
@@ -736,6 +735,11 @@ of the command:</p>
     <span class="n">py</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>  <span class="c1"># 3.8, 3.9, etc.</span>
     <span class="o">...</span>  <span class="c1"># use `py` string accordingly</span>
 </code></pre></div>
+<hr />
+<p>PDM Multirun successively run the <code>pdm use</code> then <code>pdm run</code> internal actions.
+If the command fails on a Python version, PDM Multirun stops there.
+It any case, PDM Multirun will restore the Python version
+saved in <code>.pdm.toml</code> (through the <code>pdm use</code> command) before exiting.</p>
 
 
 
