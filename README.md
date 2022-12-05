@@ -22,3 +22,49 @@ With [PDM](https://github.com/pdm-project/pdm):
 ```bash
 pdm self add pdm-multirun
 ```
+
+## Usage
+
+This plugin adds a `multirun` command to PDM.
+The command accepts the same parameters as the `run` command,
+with an additional `-i`, `--interpreters`, `--versions` parameter
+that allows to specify the interpreters to use.
+
+```bash
+pdm multirun pytest tests/
+```
+
+To specify interpreters, pass a comma-separated string
+of Python versions:
+
+```bash
+pdm multirun -i 3.10,3.11 pytest tests/
+```
+
+By default, PDM Multirun reads Python versions from the
+`PDM_MULTIRUN_VERSIONS` environment variable.
+It is a string {major}.{minor} versions that can be found
+and called by PDM.
+
+```bash
+# comma-separated is accepted as well
+export PDM_MULTIRUN_VERSIONS="3.7 3.8 3.9 3.10 3.11"
+pdm multirun pytest tests/
+```
+
+PDM Multirun sets the `PDM_MULTIRUN=1` environment variable
+when running the specified command.
+You can use it to decide if you should, for example,
+print the current Python version in the output
+of the command:
+
+```python
+import os
+import sys
+
+MULTIRUN = os.getenv("PDM_MULTIRUN", "0") == "1"
+
+if MULTIRUN:
+    py = f"{sys.version_info[0]}.{sys.version_info[1]}"  # 3.8, 3.9, etc.
+    ...  # use `py` string accordingly
+```
