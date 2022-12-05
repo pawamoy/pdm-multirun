@@ -41,8 +41,8 @@ setup:
 
 .PHONY: check
 check:
-	@pdm multirun duty check-quality check-types check-docs
 	@$(DUTY) check-dependencies
+	@pdm multirun duty check-quality check-types check-docs
 
 .PHONY: $(BASIC_DUTIES)
 $(BASIC_DUTIES):
