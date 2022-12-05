@@ -43,11 +43,10 @@ pdm multirun -i 3.10,3.11 pytest tests/
 
 By default, PDM Multirun reads Python versions from the
 `PDM_MULTIRUN_VERSIONS` environment variable.
-It is a string {major}.{minor} versions that can be found
-and called by PDM.
+It is a string of `{major}.{minor}` versions,
+separated by spaces, that can be found and called by PDM.
 
 ```bash
-# comma-separated is accepted as well
 export PDM_MULTIRUN_VERSIONS="3.7 3.8 3.9 3.10 3.11"
 pdm multirun pytest tests/
 ```
@@ -68,3 +67,10 @@ if MULTIRUN:
     py = f"{sys.version_info[0]}.{sys.version_info[1]}"  # 3.8, 3.9, etc.
     ...  # use `py` string accordingly
 ```
+
+---
+
+PDM Multirun successively run the `pdm use` then `pdm run` internal actions.
+If the command fails on a Python version, PDM Multirun stops there.
+It any case, PDM Multirun will restore the Python version
+saved in `.pdm.toml` (through the `pdm use` command) before exiting.
