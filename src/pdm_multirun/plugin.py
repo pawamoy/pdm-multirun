@@ -11,7 +11,7 @@ from pdm.cli.commands.run import Command as RunCommand
 from pdm.cli.commands.run import Project
 from pdm.cli.hooks import HookManager
 
-PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split()
+PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split(" ,")
 PYTHON_VERSIONS = PYTHON_VERSIONS or [f"python3.{minor}" for minor in range(7, 12)]  # noqa: WPS432
 
 
