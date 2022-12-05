@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.2.0](https://github.com/pawamoy/pdm-multirun/releases/tag/0.2.0) - 2022-12-05
+
+<small>[Compare with 0.1.0](https://github.com/pawamoy/pdm-multirun/compare/0.1.0...0.2.0)</small>
+
+### Features
+- Set `PDM_MULTIRUN=1` when running ([67146bd](https://github.com/pawamoy/pdm-multirun/commit/67146bd4f688e41786041e31be92d31bf75a700d) by Timothée Mazzucotelli).
+
+### Bug Fixes
+- Fix splitting `PDM_MULTIRUN_VERSIONS` environment variable ([d560a99](https://github.com/pawamoy/pdm-multirun/commit/d560a99a244f82dccdee003c20d7544cbbf196fc) by Timothée Mazzucotelli).
+
+
 ## [0.1.0](https://github.com/pawamoy/pdm-multirun/releases/tag/0.1.0) - 2022-12-05
 
 <small>[Compare with first commit](https://github.com/pawamoy/pdm-multirun/compare/c4b669df4a88ebaf1ad873b673133ef869139cea...0.1.0)</small>
