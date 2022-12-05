@@ -18,6 +18,14 @@ TESTING = os.environ.get("TESTING", "0") in {"1", "true"}
 CI = os.environ.get("CI", "0") in {"1", "true", "yes", ""}
 WINDOWS = os.name == "nt"
 PTY = not WINDOWS and not CI
+MULTIRUN = os.environ.get("PDM_MULTIRUN", "0") == "1"
+
+
+def pyprefix(title: str) -> str:  # noqa: D103
+    if MULTIRUN:
+        prefix = f"(python{sys.version_info.major}.{sys.version_info.minor})"
+        return f"{prefix:14}{title}"
+    return title
 
 
 def _latest(lines: List[str], regex: Pattern) -> Optional[str]:
@@ -123,7 +131,7 @@ def check_quality(ctx, files=PY_SRC):
         ctx: The context instance (passed automatically).
         files: The files to check.
     """
-    ctx.run(f"flake8 --config=config/flake8.ini {files}", title="Checking code quality", pty=PTY)
+    ctx.run(f"flake8 --config=config/flake8.ini {files}", title=pyprefix("Checking code quality"), pty=PTY)
 
 
 @duty
@@ -185,7 +193,7 @@ def check_docs(ctx):
     """
     Path("htmlcov").mkdir(parents=True, exist_ok=True)
     Path("htmlcov/index.html").touch(exist_ok=True)
-    ctx.run("mkdocs build -s", title="Building documentation", pty=PTY)
+    ctx.run("mkdocs build -s", title=pyprefix("Building documentation"), pty=PTY)
 
 
 @duty  # noqa: WPS231
@@ -196,7 +204,7 @@ def check_types(ctx):  # noqa: WPS231
     Arguments:
         ctx: The context instance (passed automatically).
     """
-    ctx.run(f"mypy --config-file config/mypy.ini {PY_SRC}", title="Type-checking", pty=PTY)
+    ctx.run(f"mypy --config-file config/mypy.ini {PY_SRC}", title=pyprefix("Type-checking"), pty=PTY)
 
 
 @duty(silent=True)
@@ -318,6 +326,6 @@ def test(ctx, match: str = ""):
     os.environ["COVERAGE_FILE"] = f".coverage.{py_version}"
     ctx.run(
         ["pytest", "-c", "config/pytest.ini", "-n", "auto", "-k", match, "tests"],
-        title="Running tests",
+        title=pyprefix("Running tests"),
         pty=PTY,
     )
