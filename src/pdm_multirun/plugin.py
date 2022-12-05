@@ -15,8 +15,8 @@ PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split(" ,")
 PYTHON_VERSIONS = PYTHON_VERSIONS or [f"python3.{minor}" for minor in range(7, 12)]  # noqa: WPS432
 
 
-def _split(interpreters: str) -> list[str]:
-    return [interpreter.strip() for interpreter in interpreters.split(",")]
+def _interpreters(versions: str) -> list[str]:
+    return [f"python{version.strip()}" for version in versions.split(",")]
 
 
 class MultirunCommand(RunCommand):
@@ -27,8 +27,8 @@ class MultirunCommand(RunCommand):
         parser.add_argument(
             "-i",
             "--interpreters",
-            help="Comma-separated list of Python interpreters to run the command with",
-            type=_split,
+            help="Comma-separated list of Python versions to run the command with",
+            type=_interpreters,
         )
 
     def handle(self, project: Project, options: argparse.Namespace) -> None:  # noqa: D102
