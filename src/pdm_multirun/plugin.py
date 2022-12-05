@@ -27,6 +27,7 @@ class MultirunCommand(RunCommand):
         parser.add_argument(
             "-i",
             "--interpreters",
+            "--versions",
             help="Comma-separated list of Python versions to run the command with",
             type=_interpreters,
         )
