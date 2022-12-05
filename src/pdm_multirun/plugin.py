@@ -49,6 +49,8 @@ class MultirunCommand(RunCommand):
         old_echo = project.core.ui.echo
         if not options.verbose:
             project.core.ui.echo = lambda *args, **kwargs: None  # type: ignore[assignment]
+        # unset cached environment
+        project.environment = None  # type: ignore[assignment]
         try:  # noqa: WPS501
             actions.do_use(
                 project,
@@ -59,8 +61,6 @@ class MultirunCommand(RunCommand):
             )
         finally:
             project.core.ui.echo = old_echo  # type: ignore[assignment]
-        # unset cached environment
-        project.environment = None  # type: ignore[assignment]
 
 
 def multirun(core):  # noqa: D103
