@@ -33,6 +33,7 @@ class MultirunCommand(RunCommand):
         )
 
     def handle(self, project: Project, options: argparse.Namespace) -> None:  # noqa: D102
+        os.environ["PDM_MULTIRUN"] = "1"
         old_python = str(project.environment.interpreter.path)
         project.core.ui.echo(f"Current interpreter: {old_python}", verbosity=termui.Verbosity.DETAIL)
         for python_version in options.interpreters or PYTHON_VERSIONS:
@@ -45,6 +46,7 @@ class MultirunCommand(RunCommand):
                     raise
         project.core.ui.echo(f"Restoring interpreter: {old_python}", verbosity=termui.Verbosity.DETAIL)
         self._use(project, options, old_python)
+        os.environ.pop("PDM_MULTIRUN", None)
 
     def _use(self, project: Project, options: argparse.Namespace, python: str) -> None:
         old_echo = project.core.ui.echo
