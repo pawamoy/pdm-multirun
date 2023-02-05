@@ -70,7 +70,7 @@ if MULTIRUN:
 
 ---
 
-PDM Multirun successively run the `pdm use` then `pdm run` internal actions.
+PDM Multirun successively runs the `pdm use` then `pdm run` internal actions.
 If the command fails on a Python version, PDM Multirun stops there.
 It any case, PDM Multirun will restore the Python version
 saved in `.pdm.toml` (through the `pdm use` command) before exiting.
