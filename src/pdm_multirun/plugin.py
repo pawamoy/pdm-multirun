@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import argparse
 import os
+from typing import TYPE_CHECKING
 
 from pdm import termui
 from pdm.cli import actions
@@ -11,8 +11,13 @@ from pdm.cli.commands.run import Command as RunCommand
 from pdm.cli.commands.run import Project
 from pdm.cli.hooks import HookManager
 
+if TYPE_CHECKING:
+    import argparse
+
+    from pdm.core import Core
+
 PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split()
-PYTHON_VERSIONS = PYTHON_VERSIONS or [f"python3.{minor}" for minor in range(7, 12)]  # noqa: WPS432
+PYTHON_VERSIONS = PYTHON_VERSIONS or [f"python3.{minor}" for minor in range(7, 12)]
 
 
 def _interpreters(versions: str) -> list[str]:
@@ -24,6 +29,13 @@ class MultirunCommand(RunCommand):
 
     def add_arguments(self, parser: argparse.ArgumentParser) -> None:  # noqa: D102
         super().add_arguments(parser)
+        parser.add_argument(
+            "-f",
+            "--fail-fast",
+            help="Exit as soon as an interpreter cannot be found or used",
+            action="store_true",
+            default=False,
+        )
         parser.add_argument(
             "-i",
             "--interpreters",
@@ -37,7 +49,13 @@ class MultirunCommand(RunCommand):
         old_python = str(project.environment.interpreter.path)
         project.core.ui.echo(f"Current interpreter: {old_python}", verbosity=termui.Verbosity.DETAIL)
         for python_version in options.interpreters or PYTHON_VERSIONS:
-            self._use(project, options, python_version)
+            try:
+                self._use(project, options, python_version)
+            except Exception:  # noqa: BLE001
+                if options.fail_fast:
+                    raise
+                project.core.ui.echo(f"Skipped interpreter: {python_version}", verbosity=termui.Verbosity.DETAIL)
+                continue
             try:
                 super().handle(project, options)
             except SystemExit as exit:
@@ -51,10 +69,10 @@ class MultirunCommand(RunCommand):
     def _use(self, project: Project, options: argparse.Namespace, python: str) -> None:
         old_echo = project.core.ui.echo
         if not options.verbose:
-            project.core.ui.echo = lambda *args, **kwargs: None  # type: ignore[assignment]
+            project.core.ui.echo = lambda *args, **kwargs: None  # type: ignore[method-assign]
         # unset cached environment
         project.environment = None  # type: ignore[assignment]
-        try:  # noqa: WPS501
+        try:
             actions.do_use(
                 project,
                 python=python,
@@ -63,8 +81,8 @@ class MultirunCommand(RunCommand):
                 hooks=HookManager(project, skip=options.skip),
             )
         finally:
-            project.core.ui.echo = old_echo  # type: ignore[assignment]
+            project.core.ui.echo = old_echo  # type: ignore[method-assign]
 
 
-def multirun(core):  # noqa: D103
+def multirun(core: Core) -> None:  # noqa: D103
     core.register_command(MultirunCommand, "multirun")
