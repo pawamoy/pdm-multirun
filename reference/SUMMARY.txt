@@ -1,0 +1,2 @@
+* [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> pdm_multirun](pdm_multirun/index.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> plugin](pdm_multirun/plugin.md)
