@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.3.0](https://github.com/pawamoy/pdm-multirun/releases/tag/0.3.0) - 2023-06-08
+
+<small>[Compare with 0.2.0](https://github.com/pawamoy/pdm-multirun/compare/0.2.0...0.3.0)</small>
+
+### Features
+
+- Add `fail-fast` option ([8ca1604](https://github.com/pawamoy/pdm-multirun/commit/8ca1604bbbf5eb27d86d653591004a83ee294dff) by Timothée Mazzucotelli).
+
 ## [0.2.0](https://github.com/pawamoy/pdm-multirun/releases/tag/0.2.0) - 2022-12-05
 
 <small>[Compare with 0.1.0](https://github.com/pawamoy/pdm-multirun/compare/0.1.0...0.2.0)</small>
