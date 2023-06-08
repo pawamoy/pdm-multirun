@@ -1,23 +1,21 @@
 .DEFAULT_GOAL := help
 SHELL := bash
-
-DUTY = $(shell [ -n "${VIRTUAL_ENV}" ] || echo pdm run) duty
+DUTY := $(if $(VIRTUAL_ENV),,pdm run) duty
 
 args = $(foreach a,$($(subst -,_,$1)_args),$(if $(value $a),$a="$($a)"))
 check_quality_args = files
-docs_serve_args = host port
+docs_args = host port
 release_args = version
 test_args = match
 
 BASIC_DUTIES = \
 	changelog \
+	check-api \
 	check-dependencies \
 	clean \
 	coverage \
 	docs \
 	docs-deploy \
-	docs-regen \
-	docs-serve \
 	format \
 	release
 
@@ -33,16 +31,16 @@ help:
 
 .PHONY: lock
 lock:
-	@pdm lock
+	@pdm lock -G:all
 
 .PHONY: setup
 setup:
-	@pdm multirun pdm install
+	@bash scripts/setup.sh
 
 .PHONY: check
 check:
-	@$(DUTY) check-dependencies
 	@pdm multirun duty check-quality check-types check-docs
+	@$(DUTY) check-dependencies check-api
 
 .PHONY: $(BASIC_DUTIES)
 $(BASIC_DUTIES):
