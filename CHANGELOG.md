@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.3.1](https://github.com/pawamoy/pdm-multirun/releases/tag/0.3.1) - 2023-06-13
+
+<small>[Compare with 0.3.0](https://github.com/pawamoy/pdm-multirun/compare/0.3.0...0.3.1)</small>
+
+### Bug Fixes
+
+- Support PDM 2.7.4 ([2cd1d14](https://github.com/pawamoy/pdm-multirun/commit/2cd1d14d2c9ce02033817543a2d0216135e7ad51) by Timothée Mazzucotelli).
+
 ## [0.3.0](https://github.com/pawamoy/pdm-multirun/releases/tag/0.3.0) - 2023-06-08
 
 <small>[Compare with 0.2.0](https://github.com/pawamoy/pdm-multirun/compare/0.2.0...0.3.0)</small>
