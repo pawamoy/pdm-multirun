@@ -44,6 +44,9 @@ multirun = "pdm_multirun.plugin:multirun"
 
 [tool.pdm]
 version = {source = "scm"}
+plugins = [
+    "-e file:///${PROJECT_ROOT}"
+]
 
 [tool.pdm.build]
 package-dir = "src"

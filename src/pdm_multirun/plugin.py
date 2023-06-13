@@ -6,9 +6,9 @@ import os
 from typing import TYPE_CHECKING
 
 from pdm import termui
-from pdm.cli import actions
 from pdm.cli.commands.run import Command as RunCommand
 from pdm.cli.commands.run import Project
+from pdm.cli.commands.use import Command as UseCommand
 from pdm.cli.hooks import HookManager
 
 if TYPE_CHECKING:
@@ -73,7 +73,7 @@ class MultirunCommand(RunCommand):
         # unset cached environment
         project.environment = None  # type: ignore[assignment]
         try:
-            actions.do_use(
+            UseCommand().do_use(
                 project,
                 python=python,
                 first=True,
