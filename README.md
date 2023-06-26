@@ -41,13 +41,30 @@ of Python versions:
 pdm multirun -i 3.10,3.11 pytest tests/
 ```
 
-By default, PDM Multirun reads Python versions from the
-`PDM_MULTIRUN_VERSIONS` environment variable.
-It is a string of `{major}.{minor}` versions,
+If you use virtual environments instead,
+pass their names to the `--interpreters` option
+and add the `-e`, `--venvs` flag:
+
+```bash
+pdm multirun -ei 3.10,3.11 pytest tests/
+```
+
+```bash
+pdm multirun -ei tests38,tests39 pytest tests/
+```
+
+By default, PDM Multirun reads Python versions (or venv names)
+from the `PDM_MULTIRUN_VERSIONS` environment variable.
+It is a string of `{major}.{minor}` versions (or venv names),
 separated by spaces, that can be found and called by PDM.
 
 ```bash
-export PDM_MULTIRUN_VERSIONS="3.7 3.8 3.9 3.10 3.11"
+export PDM_MULTIRUN_VERSIONS="3.8 3.9 3.10 3.11 3.12"
+pdm multirun pytest tests/
+```
+
+```bash
+export PDM_MULTIRUN_VERSIONS="tests38 tests39 tests310"
 pdm multirun pytest tests/
 ```
 
@@ -71,6 +88,20 @@ if MULTIRUN:
 ---
 
 PDM Multirun successively runs the `pdm use` then `pdm run` internal actions.
-If the command fails on a Python version, PDM Multirun stops there.
-It any case, PDM Multirun will restore the Python version
-saved in `.pdm.toml` (through the `pdm use` command) before exiting.
+By default, if PDM cannot "use" an interpreter/venv, it continues with the next.
+
+```bash
+# will continue with 3.8 even if 3.7 is not available
+pdm multirun -i 3.7,3.8 pytest tests/
+```
+
+You can tell it to fail instead with the `-f`, `--fail-fast` flag:
+
+```bash
+# will stop at 3.7 if it's not available
+pdm multirun -fi 3.7,3.8 pytest tests/
+```
+
+If the command you run fails on a Python version, PDM Multirun stops there.
+In any case, PDM Multirun will restore the Python interpreter
+saved in `.pdm-python` (through the `pdm use` command) before exiting.

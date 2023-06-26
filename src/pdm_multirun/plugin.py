@@ -16,12 +16,11 @@ if TYPE_CHECKING:
 
     from pdm.core import Core
 
-PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split()
-PYTHON_VERSIONS = PYTHON_VERSIONS or [f"python3.{minor}" for minor in range(7, 12)]
+PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split() or [f"3.{minor}" for minor in range(8, 13)]
 
 
-def _interpreters(versions: str) -> list[str]:
-    return [f"python{version.strip()}" for version in versions.split(",")]
+def _comma_separated_list(value: str) -> list[str]:
+    return value.split(",")
 
 
 class MultirunCommand(RunCommand):
@@ -32,7 +31,7 @@ class MultirunCommand(RunCommand):
         parser.add_argument(
             "-f",
             "--fail-fast",
-            help="Exit as soon as an interpreter cannot be found or used",
+            help="Exit as soon as an interpreter/venv cannot be found or used",
             action="store_true",
             default=False,
         )
@@ -40,21 +39,30 @@ class MultirunCommand(RunCommand):
             "-i",
             "--interpreters",
             "--versions",
-            help="Comma-separated list of Python versions to run the command with",
-            type=_interpreters,
+            "--names",
+            help="Comma-separated list of Python versions or virtual environment names to run the command with",
+            type=_comma_separated_list,
+        )
+        parser.add_argument(
+            "-e",
+            "--venvs",
+            action="store_true",
+            default=False,
+            help="Use virtual environments",
         )
 
     def handle(self, project: Project, options: argparse.Namespace) -> None:  # noqa: D102
         os.environ["PDM_MULTIRUN"] = "1"
         old_python = str(project.environment.interpreter.path)
         project.core.ui.echo(f"Current interpreter: {old_python}", verbosity=termui.Verbosity.DETAIL)
-        for python_version in options.interpreters or PYTHON_VERSIONS:
+        for selected in options.interpreters or PYTHON_VERSIONS:
+            use_kwargs = {"venv" if options.venvs else "python": selected}
             try:
-                self._use(project, options, python_version)
+                self._use(project, options, **use_kwargs)
             except Exception:  # noqa: BLE001
                 if options.fail_fast:
                     raise
-                project.core.ui.echo(f"Skipped interpreter: {python_version}", verbosity=termui.Verbosity.DETAIL)
+                project.core.ui.echo(f"Skipped interpreter/venv: {selected}", verbosity=termui.Verbosity.DETAIL)
                 continue
             try:
                 super().handle(project, options)
@@ -66,7 +74,7 @@ class MultirunCommand(RunCommand):
         self._use(project, options, old_python)
         os.environ.pop("PDM_MULTIRUN", None)
 
-    def _use(self, project: Project, options: argparse.Namespace, python: str) -> None:
+    def _use(self, project: Project, options: argparse.Namespace, python: str = "", venv: str | None = None) -> None:
         old_echo = project.core.ui.echo
         if not options.verbose:
             project.core.ui.echo = lambda *args, **kwargs: None  # type: ignore[method-assign]
@@ -76,6 +84,7 @@ class MultirunCommand(RunCommand):
             UseCommand().do_use(
                 project,
                 python=python,
+                venv=venv,
                 first=True,
                 ignore_remembered=False,
                 hooks=HookManager(project, skip=options.skip),
