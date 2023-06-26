@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.4.0](https://github.com/pawamoy/pdm-multirun/releases/tag/0.4.0) - 2023-06-26
+
+<small>[Compare with 0.3.1](https://github.com/pawamoy/pdm-multirun/compare/0.3.1...0.4.0)</small>
+
+### Breaking Changes
+
+- Drop support for Python 3.7 (EOL 2023/06/27)
+
+### Features
+
+- Add support for virtual environments ([f2b8381](https://github.com/pawamoy/pdm-multirun/commit/f2b838145624ecaa245681e5e4e9ef15834f55a3) by Timothée Mazzucotelli). [Issue #1](https://github.com/pawamoy/pdm-multirun/issues/1)
+
 ## [0.3.1](https://github.com/pawamoy/pdm-multirun/releases/tag/0.3.1) - 2023-06-13
 
 <small>[Compare with 0.3.0](https://github.com/pawamoy/pdm-multirun/compare/0.3.0...0.3.1)</small>
