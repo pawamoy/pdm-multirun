@@ -23,6 +23,20 @@ With [PDM](https://github.com/pdm-project/pdm):
 pdm self add pdm-multirun
 ```
 
+As a local-only plugin:
+
+```toml
+# pyproject.toml
+[tool.pdm]
+plugins = [
+    "pdm-multirun",
+]
+```
+
+```bash
+pdm install --plugins
+```
+
 ## Usage
 
 This plugin adds a `multirun` command to PDM.
