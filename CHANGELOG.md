@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.0.0](https://github.com/pawamoy/pdm-multirun/releases/tag/1.0.0) - 2023-08-20
+
+<small>[Compare with 0.4.0](https://github.com/pawamoy/pdm-multirun/compare/0.4.0...1.0.0)</small>
+
+### Features
+
+- Support environment variable to always use venvs: `PDM_MULTIRUN_USE_VENVS=1` ([16c647c](https://github.com/pawamoy/pdm-multirun/commit/16c647cf3a02f605e41282184ecbfa10c07541cf) by Dom Weldon). [Issue #4](https://github.com/pawamoy/pdm-multirun/issues/4), [PR #3](https://github.com/pawamoy/pdm-multirun/pull/3)
+
 ## [0.4.0](https://github.com/pawamoy/pdm-multirun/releases/tag/0.4.0) - 2023-06-26
 
 <small>[Compare with 0.3.1](https://github.com/pawamoy/pdm-multirun/compare/0.3.1...0.4.0)</small>
