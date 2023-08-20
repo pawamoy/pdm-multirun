@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from pdm.core import Core
 
 PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split() or [f"3.{minor}" for minor in range(8, 13)]
+USE_VENVS = os.getenv("PDM_MULTIRUN_USE_VENVS", "") == "1"
 
 
 def _comma_separated_list(value: str) -> list[str]:
@@ -47,7 +48,7 @@ class MultirunCommand(RunCommand):
             "-e",
             "--venvs",
             action="store_true",
-            default=False,
+            default=USE_VENVS,
             help="Use virtual environments",
         )
 

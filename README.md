@@ -67,6 +67,9 @@ pdm multirun -ei 3.10,3.11 pytest tests/
 pdm multirun -ei tests38,tests39 pytest tests/
 ```
 
+You can set PDM Multirun to use virtual environments by default by
+setting the `PDM_MULTIRUN_USE_VENVS` environment variable to `1`.
+
 By default, PDM Multirun reads Python versions (or venv names)
 from the `PDM_MULTIRUN_VERSIONS` environment variable.
 It is a string of `{major}.{minor}` versions (or venv names),
