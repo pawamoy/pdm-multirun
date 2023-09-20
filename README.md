@@ -85,12 +85,20 @@ export PDM_MULTIRUN_VERSIONS="tests38 tests39 tests310"
 pdm multirun pytest tests/
 ```
 
-PDM Multirun sets the `PDM_MULTIRUN=1` environment variable
-when running the specified command.
-You can use it to decide if you should, for example,
-print the current Python version in the output
-of the command:
+PDM Multirun sets a number of environment variables that can be used by code run
+in each version.
 
+* `PDM_MULTIRUN` set to `1` whenever PDM Multirun is being used.
+* `PDM_MULTIRUN_CURRENT` is set to the name of the current interpreter or
+  virtual environment (such as that passed using `-i` or
+  `PDM_MULTIRUN_VERSIONS`).
+
+You can use these variables, for example, to output metadata about the current
+python version or interpreter, like in the example below, which if invoked by
+PDM Multirun, would start by printing the name of the virtual environnment or
+interpeter, and the version of python being used.
+
+**script.py**
 ```python
 import os
 import sys
@@ -98,8 +106,24 @@ import sys
 MULTIRUN = os.getenv("PDM_MULTIRUN", "0") == "1"
 
 if MULTIRUN:
-    py = f"{sys.version_info[0]}.{sys.version_info[1]}"  # 3.8, 3.9, etc.
-    ...  # use `py` string accordingly
+    int_name = os.getenv('PDM_MULTIRUN_CURRENT', '')
+    py = f"{int_name}: {sys.version_info[0]}.{sys.version_info[1]}"
+
+    print(f"{py} - Hello from python! 👋")
+
+# continue script as required...
+```
+
+In a scenario where you had two virtual environments, `tests38` and `tests39`,
+and saved this script in a file named `example.py`, running the command:
+
+    pdm multirun -e tests38,tests39 python example.py
+
+Would output the text below.
+
+```
+tests38: 3.8 - Hello from python! 👋
+tests39: 3.9 - Hello from python! 👋
 ```
 
 ---
