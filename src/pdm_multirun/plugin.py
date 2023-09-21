@@ -57,6 +57,7 @@ class MultirunCommand(RunCommand):
         old_python = str(project.environment.interpreter.path)
         project.core.ui.echo(f"Current interpreter: {old_python}", verbosity=termui.Verbosity.DETAIL)
         for selected in options.interpreters or PYTHON_VERSIONS:
+            os.environ["PDM_MULTIRUN_CURRENT"] = selected
             use_kwargs = {"venv" if options.venvs else "python": selected}
             try:
                 self._use(project, options, **use_kwargs)
@@ -71,6 +72,8 @@ class MultirunCommand(RunCommand):
                 if exit.code:
                     self._use(project, options, old_python)
                     raise
+            os.environ.pop("PDM_MULTIRUN_CURRENT")
+
         project.core.ui.echo(f"Restoring interpreter: {old_python}", verbosity=termui.Verbosity.DETAIL)
         self._use(project, options, old_python)
         os.environ.pop("PDM_MULTIRUN", None)
