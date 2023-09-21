@@ -94,9 +94,9 @@ in each version.
   `PDM_MULTIRUN_VERSIONS`).
 
 You can use these variables, for example, to output metadata about the current
-python version or interpreter, like in the example below, which if invoked by
-PDM Multirun, would start by printing the name of the virtual environnment or
-interpeter, and the version of python being used.
+Python version or interpreter, like in the example below, which if invoked by
+PDM Multirun, would start by printing the name of the virtual environment or
+interpeter, and the version of Python being used.
 
 **script.py**
 ```python
