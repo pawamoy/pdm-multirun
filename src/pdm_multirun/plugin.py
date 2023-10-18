@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING
+import sys
+from contextlib import contextmanager
+from typing import TYPE_CHECKING, Iterator
 
 from pdm import termui
 from pdm.cli.commands.run import Command as RunCommand
@@ -22,6 +24,27 @@ USE_VENVS = os.getenv("PDM_MULTIRUN_USE_VENVS", "") == "1"
 
 def _comma_separated_list(value: str) -> list[str]:
     return value.split(",")
+
+
+@contextmanager
+def _clean_sys_path(project: Project, options: argparse.Namespace) -> Iterator[None]:
+    if options.script != "pdm":
+        yield
+        return
+    old_syspath = sys.path
+    clean = [path for path in old_syspath if "__pypackages__" not in path]
+    if clean == old_syspath:
+        yield
+        return
+    project.core.ui.echo(
+        "Temporarily removed `__pypackages__` from `sys.path`",
+        verbosity=termui.Verbosity.DETAIL,
+    )
+    sys.path = clean
+    try:
+        yield
+    finally:
+        sys.path = old_syspath
 
 
 class MultirunCommand(RunCommand):
@@ -67,7 +90,8 @@ class MultirunCommand(RunCommand):
                 project.core.ui.echo(f"Skipped interpreter/venv: {selected}", verbosity=termui.Verbosity.DETAIL)
                 continue
             try:
-                super().handle(project, options)
+                with _clean_sys_path(project, options):
+                    super().handle(project, options)
             except SystemExit as exit:
                 if exit.code:
                     self._use(project, options, old_python)
