@@ -8,6 +8,8 @@
 
 A [PDM](https://github.com/pdm-project/pdm) plugin to run a command on multiple Python versions.
 
+:warning: **Looking for maintainers.** I do not use PDM nor this plugin nowadays, and don't have the time to fix CI failures or upgrade the code base to support new versions of PDM. If you wish to be added as a collaborator on this project in order to help maintaining it, or if you wish the repository to be transfered to you, please open an issue or discussion, with enough information about you for me to trust you :wink:
+
 ## Installation
 
 With [`pipx`](https://github.com/pipxproject/pipx):
