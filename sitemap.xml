@@ -2,47 +2,57 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/changelog/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/code_of_conduct/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/contributing/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/credits/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/license/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/pdm-multirun/reference/SUMMARY/</loc>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/reference/pdm_multirun/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/pdm-multirun/reference/pdm_multirun/debug/</loc>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/reference/pdm_multirun/plugin/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://pawamoy.github.io/pdm-multirun/coverage/</loc>
-         <lastmod>2023-09-21</lastmod>
+         <lastmod>2024-07-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
