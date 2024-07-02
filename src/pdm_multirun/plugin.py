@@ -7,14 +7,13 @@ from typing import TYPE_CHECKING
 
 from pdm import termui
 from pdm.cli.commands.run import Command as RunCommand
-from pdm.cli.commands.run import Project
 from pdm.cli.commands.use import Command as UseCommand
 from pdm.cli.hooks import HookManager
 
 if TYPE_CHECKING:
     import argparse
 
-    from pdm.core import Core
+    from pdm.core import Core, Project
 
 PYTHON_VERSIONS = os.getenv("PDM_MULTIRUN_VERSIONS", "").split() or [f"3.{minor}" for minor in range(8, 13)]
 USE_VENVS = os.getenv("PDM_MULTIRUN_USE_VENVS", "") == "1"
@@ -61,7 +60,7 @@ class MultirunCommand(RunCommand):
             use_kwargs = {"venv" if options.venvs else "python": selected}
             try:
                 self._use(project, options, **use_kwargs)
-            except Exception:  # noqa: BLE001
+            except Exception:
                 if options.fail_fast:
                     raise
                 project.core.ui.echo(f"Skipped interpreter/venv: {selected}", verbosity=termui.Verbosity.DETAIL)
